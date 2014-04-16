@@ -1,0 +1,12 @@
+package com.tiberiuslabs.RogueColony.desktop;
+
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.tiberiuslabs.RogueColony.RogueColonyGame;
+
+public class DesktopLauncher {
+	public static void main (String[] arg) {
+		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		new LwjglApplication(new RogueColonyGame(), config);
+	}
+}
