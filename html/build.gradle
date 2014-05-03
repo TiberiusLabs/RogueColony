@@ -7,8 +7,8 @@ gwt {
     minHeapSize="1G"
 
     src = files(file("src/")) // Needs to be in front of "modules" below.
-    modules 'com.tiberiuslabs.RogueColony.GdxDefinition'
-    devModules 'com.tiberiuslabs.RogueColony.GdxDefinitionSuperdev'
+    modules 'com.gilljanssen.RogueColony.GdxDefinition'
+    devModules 'com.gilljanssen.RogueColony.GdxDefinitionSuperdev'
     project.webAppDirName = 'webapp'
 
     compiler {
@@ -58,5 +58,5 @@ sourceSets.main.compileClasspath += files(project(':core').sourceSets.main.allJa
 
 
 eclipse.project {
-    name = appName + "-gwt"
+    name = appName + "-html"
 }
