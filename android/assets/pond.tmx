@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="100" height="100" tilewidth="64" tileheight="32">
+ <tileset firstgid="1" name="flare" tilewidth="64" tileheight="32">
+  <image source="grassland_tiles.png" width="1024" height="1344"/>
+  <tile id="120">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="123">
+   <properties>sssssssssss
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="139">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Ground" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwwEJAAAMBKH7/qUHy6Hgqqmqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv8AX0MnEQ==
+  </data>
+ </layer>
+ <layer name="Water" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt3FFKAzEURuH0QcEFSOm8uYhuwh0IbkBwA4I70B3oJhV88M0ZjBDSpEmnae7f8XxwKVqHSg+ZGWs7zgEAAAAAAAAAAAAAAAAAAAD4r+6tfwFjg5/c1z3d+dtHo8dXMeyZ3h787bPBY6va+GnZ6JDtn2Y+xtKFXTb+e3ObDMGt5T5xKTZud92k5NZUuH38c7VomLZvXzYEPxM3cNF9LrGdc+nn3fq4di7i9ZJrkNs21aV03KJL2SEdctsdOnTp43ucT1duTJPTm1pcr5y7GufSz200sdI5BuYJW9yMs/VT6jH5a4J2Ptxui1STHNZIW1OPi0SL2h6skba+xlllemwrekxYI+1MPXLro7YH51zttOgxCf/GxHz00BKf1+ampOZ1T5S16jFhjRzvVD1oYi98zYseGthnaaGHFnpo4bxXD2tES7hGoIF9lh6a6KGJHv4/oif3fnHYqn1PMvqiiSaOLZroood9mCaa6GH/peeYz9nhNFKf54It3iehh3MvTTTRQxNNNNETX4sC9nLXCTknL+O8BrMUueu3nEOft3Heg1mS+NiSu9YE+qm5Hgv6C597XgsDgF9rP9BACx2sDR200EIPLfTQQgt762hghwZaaKGFHlro0V98vF5H98EW51MArP0AB/NF7Q==
+  </data>
+ </layer>
+</map>
