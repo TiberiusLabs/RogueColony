@@ -1,11 +1,10 @@
-package com.gilljanssen.RogueColony;
+package com.gilljanssen.RogueColony.Factories;
 
 import com.artemis.Entity;
 import com.artemis.World;
-import com.gilljanssen.RogueColony.Components.Position;
-import com.gilljanssen.RogueColony.Components.Sprite;
-import com.gilljanssen.RogueColony.Components.Velocity;
-import com.gilljanssen.RogueColony.Components.Player;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Texture;
+import com.gilljanssen.RogueColony.Components.*;
 
 /**
  */
@@ -15,8 +14,9 @@ public class EntityFactory {
         Entity e = world.createEntity();
 
         e.addComponent(new Position(x,y))
-                .addComponent(new Sprite("neworc.png"))
                 .addComponent(new Velocity())
+                .addComponent(new Sprite("neworc.png"))
+                .addComponent(PlayerAnimationFactory.createPlayerAnimations(new Texture("neworc.png")))
                 .addComponent(new Player());
 
         return e;

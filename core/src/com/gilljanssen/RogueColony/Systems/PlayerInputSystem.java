@@ -1,4 +1,4 @@
-package com.gilljanssen.RogueColony.Components;
+package com.gilljanssen.RogueColony.Systems;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -9,6 +9,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.gilljanssen.RogueColony.Components.Player;
+import com.gilljanssen.RogueColony.Components.Position;
+import com.gilljanssen.RogueColony.Components.Velocity;
 
 /**
  */
@@ -17,19 +20,25 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
     ComponentMapper<Velocity> vm;
     @Mapper
     ComponentMapper<Position> pm;
+    @Mapper
+    ComponentMapper<Player> plm;
 
     private OrthographicCamera camera;
     private Velocity velocity;
-    private int buttonsDown;
-    private int speed;
+    private float speed;
     private boolean upDown;
     private boolean leftDown;
     private boolean downDown;
     private boolean rightDown;
+    private boolean keyChanged;
+    private int lastDirection;
 
     public PlayerInputSystem(OrthographicCamera camera) {
         super(Aspect.getAspectForAll(Velocity.class, Player.class));
         this.camera = camera;
+        this.velocity = new Velocity();
+        this.speed = 180;
+        this.keyChanged = false;
     }
 
     @Override
@@ -41,11 +50,19 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
     protected void process(Entity e) {
         Velocity vel = vm.get(e);
         Position pos = pm.get(e);
+        Player player = plm.get(e);
 
-        vel.vx = velocity.vx;
-        vel.vy = velocity.vy;
+        vel.vx = velocity.vx * 0.866f;
+        vel.vy = velocity.vy * 0.5f;
+
+        player.lastDirection = lastDirection;
+        player.animationChanged = keyChanged;
+        player.isRunning = vel.vx != 0 || vel.vy != 0;
 
         camera.position.set(pos.x, pos.y, 0);
+        camera.update();
+
+        if (keyChanged) keyChanged = false;
     }
 
     @Override
@@ -53,29 +70,30 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
         switch (keycode) {
             case Input.Keys.UP:
             case Input.Keys.W:
-                buttonsDown++;
+                if (!keyChanged) keyChanged = true;
                 upDown = true;
                 velocity.vy = speed;
                 break;
             case Input.Keys.LEFT:
             case Input.Keys.A:
-                buttonsDown++;
+                if (!keyChanged) keyChanged = true;
                 leftDown = true;
                 velocity.vx = -speed;
                 break;
             case Input.Keys.DOWN:
             case Input.Keys.S:
-                buttonsDown++;
+                if (!keyChanged) keyChanged = true;
                 downDown = true;
                 velocity.vy = -speed;
                 break;
             case Input.Keys.RIGHT:
             case Input.Keys.D:
+                if (!keyChanged) keyChanged = true;
                 rightDown = true;
-                buttonsDown++;
                 velocity.vx = speed;
                 break;
         }
+        updateDirection();
         return true;
     }
 
@@ -84,30 +102,33 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
         switch (keycode) {
             case Input.Keys.UP:
             case Input.Keys.W:
-                buttonsDown--;
                 upDown = false;
+                if (!keyChanged) keyChanged = true;
                 break;
             case Input.Keys.LEFT:
             case Input.Keys.A:
-                buttonsDown--;
                 leftDown = false;
+                if (!keyChanged) keyChanged = true;
                 break;
             case Input.Keys.DOWN:
             case Input.Keys.S:
-                buttonsDown--;
                 downDown = false;
+                if (!keyChanged) keyChanged = true;
                 break;
             case Input.Keys.RIGHT:
             case Input.Keys.D:
-                buttonsDown--;
                 rightDown = false;
+                if (!keyChanged) keyChanged = true;
                 break;
         }
 
-        if (buttonsDown < 1) {
+        if (!upDown && !downDown && !leftDown && !rightDown) {
             velocity.vx = 0;
             velocity.vy = 0;
         }
+
+        updateDirection();
+
         return true;
     }
 
@@ -139,5 +160,29 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    private void updateDirection() {
+        if (upDown) {
+            if (leftDown) {
+                lastDirection = 1;
+            } else if (rightDown) {
+                lastDirection = 3;
+            } else {
+                lastDirection = 2;
+            }
+        } else if (downDown) {
+            if (leftDown) {
+                lastDirection = 7;
+            } else if (rightDown) {
+                lastDirection = 5;
+            } else {
+                lastDirection = 6;
+            }
+        } else if (leftDown) {
+            lastDirection = 0;
+        } else if (rightDown) {
+            lastDirection = 4;
+        }
     }
 }

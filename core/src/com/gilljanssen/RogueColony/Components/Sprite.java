@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
  * @author Amandeep Gill
  */
 public class Sprite extends Component {
-    public Texture sprite;
+    public com.badlogic.gdx.graphics.g2d.Sprite sprite;
     public float r = 1;
     public float g = 1;
     public float b = 1;
@@ -20,7 +20,7 @@ public class Sprite extends Component {
     public float rotation;
 
     public Sprite(String path) {
-        sprite = new Texture(Gdx.files.internal(path));
+        sprite = new com.badlogic.gdx.graphics.g2d.Sprite(new Texture(Gdx.files.internal(path)));
     }
 
     public Sprite() {

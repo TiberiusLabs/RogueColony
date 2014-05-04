@@ -1,16 +1,19 @@
-package com.gilljanssen.RogueColony.Components;
+package com.gilljanssen.RogueColony.Systems;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import com.gilljanssen.RogueColony.Components.Position;
+import com.gilljanssen.RogueColony.Components.Velocity;
 
 /**
  */
 public class MovementSystem extends EntityProcessingSystem {
     @Mapper
     ComponentMapper<Position> pm;
+    @Mapper
     ComponentMapper<Velocity> vm;
 
     public MovementSystem() {

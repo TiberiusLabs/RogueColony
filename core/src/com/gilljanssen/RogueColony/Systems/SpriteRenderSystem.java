@@ -1,4 +1,4 @@
-package com.gilljanssen.RogueColony.Components;
+package com.gilljanssen.RogueColony.Systems;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -7,9 +7,11 @@ import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
+import com.gilljanssen.RogueColony.Components.Position;
+import com.gilljanssen.RogueColony.Components.Sprite;
 
 /**
  * System for rendering textures
@@ -25,7 +27,6 @@ public class SpriteRenderSystem extends EntitySystem {
     private TiledMap map;
     private IsometricTiledMapRenderer renderer;
     private OrthographicCamera camera;
-    private SpriteBatch batch;
 
     /**
      * Creates an entity system that uses the specified aspect as a matcher against entities.
@@ -39,7 +40,8 @@ public class SpriteRenderSystem extends EntitySystem {
 
     @Override
     protected void initialize() {
-        batch = new SpriteBatch();
+        map = new TmxMapLoader().load("pond.tmx");
+        renderer = new IsometricTiledMapRenderer(map);
     }
 
     @Override
@@ -49,23 +51,28 @@ public class SpriteRenderSystem extends EntitySystem {
         }
     }
 
-    protected void process(Entity entity) {
-        if (pm.has(entity)) {
-            Position pos = pm.getSafe(entity);
-            Sprite sprite = sm.get(entity);
+    protected void process(Entity e) {
+        if (pm.has(e)) {
+            Position pos = pm.getSafe(e);
+            Sprite sprite = sm.get(e);
 
-            batch.setColor(sprite.r, sprite.g, sprite.b, sprite.a);
-            batch.draw(sprite.sprite, pos.x, pos.y);
+            renderer.getSpriteBatch().setColor(sprite.r, sprite.g, sprite.b, sprite.a);
+            renderer.getSpriteBatch().draw(sprite.sprite, pos.x, pos.y);
         }
     }
 
+    @Override
     protected void begin() {
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
+        renderer.setView(camera);
+        renderer.render();
+
+        renderer.getSpriteBatch().setProjectionMatrix(camera.combined);
+        renderer.getSpriteBatch().begin();
     }
 
+    @Override
     protected void end() {
-        batch.end();
+        renderer.getSpriteBatch().end();
     }
 
     @Override
