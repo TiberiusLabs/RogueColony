@@ -4,9 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -41,9 +38,8 @@ public class MapView implements Screen {
         map = new TmxMapLoader().load("pond.tmx");
         renderer = new IsometricTiledMapRenderer(map);
         camera = new OrthographicCamera();
-        player = new Player(new Sprite(new TextureRegion(new Texture("neworc.png"), 32, 32, 64, 64)),
-                (TiledMapTileLayer)map.getLayers().get(0));
-        player.setPosition(5 * player.getCollisionLayer().getTileWidth(), 20 * player.getCollisionLayer().getTileHeight());
+        player = new Player((TiledMapTileLayer)map.getLayers().get(0));
+        player.setPosition(player.toCartX(0, 1), player.toCartY(0, 1));
 
         Gdx.input.setInputProcessor(player);
     }
