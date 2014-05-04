@@ -20,12 +20,15 @@ public class Player extends Sprite implements InputProcessor {
     private TiledMapTileLayer collisionLayer;
     private int buttonsDown;
     private boolean upDown, rightDown, downDown, leftDown;
+    private Animation currentAnimation;
     private Animation stillLeft, stillUpLeft, stillUp, stillUpRight, stillRight, stillDownRight, stillDown, stillDownLeft;
     private Animation runLeft, runUpLeft, runUp, runUpRight, runRight, runDownRight, runDown, runDownLeft;
+    private int lastDirection;
 
     public Player(TiledMapTileLayer collisionLayer) {
         super(new Sprite(new TextureRegion(new Texture("neworc.png"), 32, 32, 64, 64)));
         makeAnimations();
+        currentAnimation = stillRight;
         velocity = new Vector2();
         speed = 60.0f * 3;
         this.collisionLayer = collisionLayer;
@@ -158,7 +161,7 @@ public class Player extends Sprite implements InputProcessor {
 //        }
 
         animationTime += delta;
-        setRegion(stillRight.getKeyFrame(animationTime));
+        setRegion(currentAnimation.getKeyFrame(animationTime));
 
     }
 
@@ -221,38 +224,35 @@ public class Player extends Sprite implements InputProcessor {
         if (buttonsDown < 1) {
             velocity.x = 0;
             velocity.y = 0;
+
+            switch (lastDirection) {
+                case 1:
+                    currentAnimation = stillLeft;
+                    break;
+                case 2:
+                    currentAnimation = stillUpLeft;
+                    break;
+                case 3:
+                    currentAnimation = stillUp;
+                    break;
+                case 4:
+                    currentAnimation = stillUpRight;
+                    break;
+                case 5:
+                    currentAnimation = stillRight;
+                    break;
+                case 6:
+                    currentAnimation = stillDownRight;
+                    break;
+                case 7:
+                    currentAnimation = stillDown;
+                    break;
+                case 8:
+                    currentAnimation = stillDownLeft;
+                    break;
+            }
         }
         return true;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
     }
 
     public int toIsoX (float cartX, float cartY) {
@@ -372,30 +372,76 @@ public class Player extends Sprite implements InputProcessor {
             if (leftDown) {
                 velocity.x = -speed * 0.866f;
                 velocity.y = speed * 0.5f;
+                currentAnimation = runUpLeft;
+                lastDirection = 2;
             } else if (rightDown) {
                 velocity.x = speed * 0.866f;
                 velocity.y = speed * 0.5f;
+                currentAnimation = runUpRight;
+                lastDirection = 4;
             } else {
                 velocity.x = 0;
                 velocity.y = speed;
+                currentAnimation = runUp;
+                lastDirection = 3;
             }
         } else if (downDown) {
             if (leftDown) {
                 velocity.x = -speed * 0.866f;
                 velocity.y = -speed * 0.5f;
+                currentAnimation = runDownLeft;
+                lastDirection = 8;
             } else if (rightDown) {
                 velocity.x = speed * 0.866f;
                 velocity.y = -speed * 0.5f;
+                currentAnimation = runDownRight;
+                lastDirection = 6;
             } else {
                 velocity.x = 0;
                 velocity.y = -speed;
+                currentAnimation = runDown;
+                lastDirection = 7;
             }
         } else if (leftDown) {
             velocity.x = -speed;
             velocity.y = 0;
+            currentAnimation = runLeft;
+            lastDirection = 1;
         } else if (rightDown) {
             velocity.x = speed;
             velocity.y = 0;
+            currentAnimation = runRight;
+            lastDirection = 5;
         }
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }
