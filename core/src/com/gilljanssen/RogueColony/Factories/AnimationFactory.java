@@ -8,7 +8,7 @@ import com.gilljanssen.RogueColony.Components.Animations;
 
 /**
  */
-public class PlayerAnimationFactory {
+public class AnimationFactory {
     public static Animations createPlayerAnimations(Texture animationTexture) {
         Animation stills[] = new Animation[8];
         Animation running[] = new Animation[8];
