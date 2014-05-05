@@ -24,7 +24,7 @@ public class PlayerAnimationFactory {
             Array<TextureRegion> rULArray = new Array<TextureRegion>(8);
             for (int i = 0; i < 8; i++)
                 rULArray.add(new TextureRegion(animationTexture, 544 + 128 * i, 32 + 128 * a, 64, 64));
-            running[a] = new Animation(1/ 8.0f, rULArray, Animation.PlayMode.LOOP);
+            running[a] = new Animation(1/ 12.0f, rULArray, Animation.PlayMode.LOOP);
         }
 
         return new Animations(stills, running);

@@ -52,8 +52,8 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
         Position pos = pm.get(e);
         Player player = plm.get(e);
 
-        vel.vx = velocity.vx * 0.866f;
-        vel.vy = velocity.vy * 0.5f;
+        vel.vx = velocity.vx;
+        vel.vy = velocity.vy;
 
         player.lastDirection = lastDirection;
         player.animationChanged = keyChanged;
@@ -165,23 +165,39 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
     private void updateDirection() {
         if (upDown) {
             if (leftDown) {
+                velocity.vx = -speed * 0.866f;
+                velocity.vy = speed * 0.5f;
                 lastDirection = 1;
             } else if (rightDown) {
+                velocity.vx = speed * 0.866f;
+                velocity.vy = speed * 0.5f;
                 lastDirection = 3;
             } else {
+                velocity.vx = 0;
+                velocity.vy = speed;
                 lastDirection = 2;
             }
         } else if (downDown) {
             if (leftDown) {
+                velocity.vx = -speed * 0.866f;
+                velocity.vy = -speed * 0.5f;
                 lastDirection = 7;
             } else if (rightDown) {
+                velocity.vx = speed * 0.866f;
+                velocity.vy = -speed * 0.5f;
                 lastDirection = 5;
             } else {
+                velocity.vx = 0;
+                velocity.vy = -speed;
                 lastDirection = 6;
             }
         } else if (leftDown) {
+            velocity.vx = -speed;
+            velocity.vy = 0;
             lastDirection = 0;
         } else if (rightDown) {
+            velocity.vx = speed;
+            velocity.vy = 0;
             lastDirection = 4;
         }
     }
