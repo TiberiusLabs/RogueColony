@@ -33,7 +33,7 @@ public class RCScreen implements Screen {
 
         world.initialize();
 
-        EntityFactory.createPlayer(world, 100, 0).addToWorld();
+        EntityFactory.createPlayer(world, 3200, 0).addToWorld();
     }
 
     @Override

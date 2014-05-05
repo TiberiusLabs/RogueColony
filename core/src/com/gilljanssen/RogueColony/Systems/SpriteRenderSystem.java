@@ -40,7 +40,7 @@ public class SpriteRenderSystem extends EntitySystem {
 
     @Override
     protected void initialize() {
-        map = new TmxMapLoader().load("pond.tmx");
+        map = new TmxMapLoader().load("map.tmx");
         renderer = new IsometricTiledMapRenderer(map);
     }
 
