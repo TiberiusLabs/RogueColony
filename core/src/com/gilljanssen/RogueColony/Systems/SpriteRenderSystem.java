@@ -33,14 +33,14 @@ public class SpriteRenderSystem extends EntitySystem {
      *
      * @param camera the camera attached to this system
      */
-    public SpriteRenderSystem(OrthographicCamera camera) {
+    public SpriteRenderSystem(OrthographicCamera camera, TiledMap map) {
         super(Aspect.getAspectForAll(Position.class, Sprite.class));
         this.camera = camera;
+        this.map = map;
     }
 
     @Override
     protected void initialize() {
-        map = new TmxMapLoader().load("map.tmx");
         renderer = new IsometricTiledMapRenderer(map);
     }
 

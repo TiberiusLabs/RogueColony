@@ -6,6 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.gilljanssen.RogueColony.Factories.EntityFactory;
 import com.gilljanssen.RogueColony.Systems.MovementSystem;
 import com.gilljanssen.RogueColony.Systems.PlayerAnimationSystem;
@@ -16,6 +20,7 @@ public class RCScreen implements Screen {
 
     private OrthographicCamera camera;
     private World world;
+    private TiledMap map;
 
     private SpriteRenderSystem spriteRenderSystem;
     private PlayerInputSystem playerInputSystem;
@@ -26,14 +31,21 @@ public class RCScreen implements Screen {
 
         camera = new OrthographicCamera();
         world = new World();
-        spriteRenderSystem = world.setSystem(new SpriteRenderSystem(camera), true);
+        map = new TmxMapLoader().load("map.tmx");
+        TiledMapTileLayer collisionLayer = (TiledMapTileLayer)(map.getLayers().get(0));
+        //TiledMapTile tile = collisionLayer.getCell(0, 0).getTile();
+        //System.out.println(tile.getProperties().toString());
+        //for (int i = 0; i < 10; i++)
+            //for (int j = 0; j < 10; j++)
+                //collisionLayer.getCell(1 + i, 1 + j).setTile(tile);
+        spriteRenderSystem = world.setSystem(new SpriteRenderSystem(camera, map), true);
         playerInputSystem = world.setSystem(new PlayerInputSystem(camera), true);
         playerAnimationSystem = world.setSystem(new PlayerAnimationSystem(), true);
-        movementSystem = world.setSystem(new MovementSystem(), true);
+        movementSystem = world.setSystem(new MovementSystem((TiledMapTileLayer)map.getLayers().get(0)), true);
 
         world.initialize();
 
-        EntityFactory.createPlayer(world, 3200, 0).addToWorld();
+        EntityFactory.createPlayer(world, 1000, 0).addToWorld();
     }
 
     @Override
