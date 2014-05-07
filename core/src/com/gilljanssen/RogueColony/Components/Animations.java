@@ -20,4 +20,9 @@ public class Animations extends Component {
         currentAnimation = stills[5];
         animationTime = 0;
     }
+
+    public Animations(Animation animation) {
+        currentAnimation = animation;
+        animationTime = 0;
+    }
 }

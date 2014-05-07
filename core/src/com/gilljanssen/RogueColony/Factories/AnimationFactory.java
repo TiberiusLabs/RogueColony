@@ -29,4 +29,14 @@ public class AnimationFactory {
 
         return new Animations(stills, running);
     }
+
+    public static Animations createNPCAnimations(Texture animationTexture) {
+
+        Array<TextureRegion> frames = new Array<TextureRegion>(55);
+        for (int i = 0; i < 55; i++)
+            frames.add(new TextureRegion(animationTexture, 32 + 128 * i, 32, 64, 64));
+        Animation animation = new Animation(1 / 8.0f, frames, Animation.PlayMode.LOOP);
+
+        return new Animations(animation);
+    }
 }

@@ -1,9 +1,11 @@
 package com.gilljanssen.RogueColony.Components;
 
+import com.artemis.Component;
+
 /**
  * @author Amandeep Gill
  */
-public class AICharacter {
+public class AICharacter extends Component {
 
     public Faction faction;
 

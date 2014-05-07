@@ -11,10 +11,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.gilljanssen.RogueColony.Factories.EntityFactory;
-import com.gilljanssen.RogueColony.Systems.MovementSystem;
-import com.gilljanssen.RogueColony.Systems.PlayerAnimationSystem;
-import com.gilljanssen.RogueColony.Systems.PlayerInputSystem;
-import com.gilljanssen.RogueColony.Systems.SpriteRenderSystem;
+import com.gilljanssen.RogueColony.Factories.NPCFactory;
+import com.gilljanssen.RogueColony.Systems.*;
 
 public class RCScreen implements Screen {
 
@@ -26,26 +24,29 @@ public class RCScreen implements Screen {
     private PlayerInputSystem playerInputSystem;
     private MovementSystem movementSystem;
     private PlayerAnimationSystem playerAnimationSystem;
+    private AIAnimationSystem aiAnimationSystem;
 
     public RCScreen(Game game) {
 
         camera = new OrthographicCamera();
         world = new World();
         map = new TmxMapLoader().load("map.tmx");
-        TiledMapTileLayer collisionLayer = (TiledMapTileLayer)(map.getLayers().get(0));
-        //TiledMapTile tile = collisionLayer.getCell(0, 0).getTile();
-        //System.out.println(tile.getProperties().toString());
-        //for (int i = 0; i < 10; i++)
-            //for (int j = 0; j < 10; j++)
-                //collisionLayer.getCell(1 + i, 1 + j).setTile(tile);
         spriteRenderSystem = world.setSystem(new SpriteRenderSystem(camera, map), true);
         playerInputSystem = world.setSystem(new PlayerInputSystem(camera), true);
         playerAnimationSystem = world.setSystem(new PlayerAnimationSystem(), true);
+        aiAnimationSystem = world.setSystem(new AIAnimationSystem(), true);
+
         movementSystem = world.setSystem(new MovementSystem((TiledMapTileLayer)map.getLayers().get(0)), true);
 
         world.initialize();
 
         EntityFactory.createPlayer(world, 1000, 0).addToWorld();
+
+        NPCFactory.createNPC(world, 1200, 0, "thief.png").addToWorld();
+        NPCFactory.createNPC(world, 800, 0, "thief.png").addToWorld();
+        NPCFactory.createNPC(world, 1200, 200, "thief.png").addToWorld();
+        NPCFactory.createNPC(world, 800, 200, "thief.png").addToWorld();
+        NPCFactory.createNPC(world, 1200, -200, "thief.png").addToWorld();
     }
 
     @Override
@@ -59,6 +60,7 @@ public class RCScreen implements Screen {
         playerInputSystem.process();
         movementSystem.process();
         playerAnimationSystem.process();
+        aiAnimationSystem.process();
         spriteRenderSystem.process();
 
     }
