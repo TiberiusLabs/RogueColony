@@ -13,7 +13,7 @@ public class NPCFactory {
         e.addComponent(new Position(x,y))
                 .addComponent(new Velocity())
                 .addComponent(new Sprite(file))
-                .addComponent(AnimationFactory.createPlayerAnimations(new Texture(file)))
+                .addComponent(AnimationFactory.createNPCAnimations(new Texture(file)))
                 .addComponent(new Layer(Layer.ObjectLayer.CHARACTER))
                 .addComponent(new AICharacter(AICharacter.Faction.TRIBAL));
 

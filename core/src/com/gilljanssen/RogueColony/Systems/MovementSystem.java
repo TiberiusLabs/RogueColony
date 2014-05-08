@@ -6,6 +6,7 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.gilljanssen.RogueColony.Components.Player;
 import com.gilljanssen.RogueColony.Components.Position;
 import com.gilljanssen.RogueColony.Components.Velocity;
 
@@ -20,7 +21,7 @@ public class MovementSystem extends EntityProcessingSystem {
     TiledMapTileLayer collisionLayer;
 
     public MovementSystem(TiledMapTileLayer collisionLayer) {
-        super(Aspect.getAspectForAll(Position.class, Velocity.class));
+        super(Aspect.getAspectForAll(Player.class, Position.class, Velocity.class));
         this.collisionLayer = collisionLayer;
     }
 
@@ -35,8 +36,8 @@ public class MovementSystem extends EntityProcessingSystem {
         // Move
         pos.x += vel.vx * world.delta;
         pos.y += vel.vy * world.delta;
-        float isoX = toIsoX(pos.x + 32, pos.y + 16);
-        float isoY = toIsoY(pos.x + 32, pos.y + 16);
+        float isoX = toIsoX(pos.x + 64, pos.y + 16);
+        float isoY = toIsoY(pos.x + 64, pos.y + 16);
         // System.out.println("(" + isoX + ", " + isoY + ")");
         boolean collision = false;
 
@@ -79,6 +80,7 @@ public class MovementSystem extends EntityProcessingSystem {
                     collision = collisionLayer.getCell((int) isoX - 1, (int) isoY - 1).getTile().getProperties().containsKey("blocked");
             }
         } catch (NullPointerException nullPointerException) {
+            System.out.println("NULL");
             collision = true;
         }
 
@@ -92,16 +94,24 @@ public class MovementSystem extends EntityProcessingSystem {
         }
     }
 
-    public int toIsoX (float cartX, float cartY) {
-        return (int)Math.floor((double)(cartX / 64.0f)) - (int)Math.floor((double)((cartY - 16) / 32.0f));
+    public static int toIsoX (float cartX, float cartY) {
+        return (int)Math.floor((double)(cartX / 64.0f)) - (int)Math.floor((double)(cartY / 32.0f));
     }
 
-    public int toIsoY (float cartX, float cartY) {
-        if (Math.floor((cartY - 16) / 16.0f) % 2 == 0) {
-            return (int)Math.floor((double)((cartY - 16) / 32.0f)) + (int)Math.floor((double)(cartX / 64.0f));
-        } else {
-            return (int)Math.floor((double)((cartY) / 32.0f)) + (int)Math.floor((double)((cartX + 32) / 64.0f));
-        }
-        //return (int)Math.floor((double)((cartY - 16) / 16.0f)) + (int)Math.floor((double)(cartX / 64.0f));
+    public static int toIsoY (float cartX, float cartY) {
+//        if (Math.floor((cartY - 16) / 16.0f) % 2 == 0) {
+//            return (int)Math.floor((double)((cartY - 16) / 32.0f)) + (int)Math.floor((double)(cartX / 64.0f));
+//        } else {
+//            return (int)Math.floor((double)((cartY) / 32.0f)) + (int)Math.floor((double)((cartX + 32) / 64.0f));
+//        }
+        return (int)Math.floor((double)((cartY) / 32.0f)) + (int)Math.floor((double)(cartX / 64.0f));
+    }
+
+    public static int toCartX (int isoX, int isoY) {
+        return 0;
+    }
+
+    public static int toCartY (int isoX, int isoY) {
+        return 16 * (isoY - isoX);
     }
 }

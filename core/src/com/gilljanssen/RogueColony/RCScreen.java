@@ -36,17 +36,18 @@ public class RCScreen implements Screen {
         playerAnimationSystem = world.setSystem(new PlayerAnimationSystem(), true);
         aiAnimationSystem = world.setSystem(new AIAnimationSystem(), true);
 
-        movementSystem = world.setSystem(new MovementSystem((TiledMapTileLayer)map.getLayers().get(0)), true);
+        System.out.println(map.getLayers().getCount());
+        movementSystem = world.setSystem(new MovementSystem((TiledMapTileLayer)map.getLayers().get(1)), true);
 
         world.initialize();
 
-        EntityFactory.createPlayer(world, 1000, 0).addToWorld();
+        EntityFactory.createPlayer(world, 1024 - 32, -16, "horse.png").addToWorld();
 
         NPCFactory.createNPC(world, 1200, 0, "thief.png").addToWorld();
         NPCFactory.createNPC(world, 800, 0, "thief.png").addToWorld();
         NPCFactory.createNPC(world, 1200, 200, "thief.png").addToWorld();
         NPCFactory.createNPC(world, 800, 200, "thief.png").addToWorld();
-        NPCFactory.createNPC(world, 1200, -200, "thief.png").addToWorld();
+        NPCFactory.createNPC(world, 1200, -200, "zombie.png").addToWorld();
     }
 
     @Override

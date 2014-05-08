@@ -9,13 +9,13 @@ import com.gilljanssen.RogueColony.Components.*;
  */
 public class EntityFactory {
 
-    public static Entity createPlayer(World world, float x, float y) {
+    public static Entity createPlayer(World world, float x, float y, String textureFile) {
         Entity e = world.createEntity();
 
         e.addComponent(new Position(x,y))
                 .addComponent(new Velocity())
-                .addComponent(new Sprite("neworc.png"))
-                .addComponent(AnimationFactory.createPlayerAnimations(new Texture("neworc.png")))
+                .addComponent(new Sprite(textureFile))
+                .addComponent(AnimationFactory.createPlayerAnimations(new Texture(textureFile)))
                 .addComponent(new Layer(Layer.ObjectLayer.CHARACTER))
                 .addComponent(new Player());
 

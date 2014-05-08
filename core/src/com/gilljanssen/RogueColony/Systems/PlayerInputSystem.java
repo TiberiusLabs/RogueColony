@@ -165,12 +165,12 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
     private void updateDirection() {
         if (upDown) {
             if (leftDown) {
-                velocity.vx = -speed * 0.866f;
-                velocity.vy = speed * 0.5f;
+                velocity.vx = -speed * 0.894f;
+                velocity.vy = speed * 0.447f;
                 lastDirection = 1;
             } else if (rightDown) {
-                velocity.vx = speed * 0.866f;
-                velocity.vy = speed * 0.5f;
+                velocity.vx = speed * 0.894f;
+                velocity.vy = speed * 0.447f;
                 lastDirection = 3;
             } else {
                 velocity.vx = 0;
@@ -179,12 +179,12 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
             }
         } else if (downDown) {
             if (leftDown) {
-                velocity.vx = -speed * 0.866f;
-                velocity.vy = -speed * 0.5f;
+                velocity.vx = -speed * 0.894f;
+                velocity.vy = -speed * 0.447f;
                 lastDirection = 7;
             } else if (rightDown) {
-                velocity.vx = speed * 0.866f;
-                velocity.vy = -speed * 0.5f;
+                velocity.vx = speed * 0.894f;
+                velocity.vy = -speed * 0.447f;
                 lastDirection = 5;
             } else {
                 velocity.vx = 0;
