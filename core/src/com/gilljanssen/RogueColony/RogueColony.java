@@ -7,7 +7,7 @@ public class RogueColony extends Game {
 
     @Override
     public void create () {
-        setScreen(new RCScreen(this));
+        setScreen(new MenuScreen(this));
     }
 
     @Override

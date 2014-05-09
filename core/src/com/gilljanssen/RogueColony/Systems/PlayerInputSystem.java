@@ -37,7 +37,7 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
         super(Aspect.getAspectForAll(Velocity.class, Player.class));
         this.camera = camera;
         this.velocity = new Velocity();
-        this.speed = 500;
+        this.speed = 240;
         this.keyChanged = false;
     }
 
@@ -91,6 +91,14 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
                 if (!keyChanged) keyChanged = true;
                 rightDown = true;
                 velocity.vx = speed;
+                break;
+            case Input.Keys.EQUALS:
+                speed += 40;
+                System.out.println(speed);
+                break;
+            case Input.Keys.MINUS:
+                speed -= 40;
+                System.out.println(speed);
                 break;
         }
         updateDirection();

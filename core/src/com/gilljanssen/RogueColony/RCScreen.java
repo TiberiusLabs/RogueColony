@@ -3,6 +3,7 @@ package com.gilljanssen.RogueColony;
 import com.artemis.World;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,6 +17,7 @@ import com.gilljanssen.RogueColony.Systems.*;
 
 public class RCScreen implements Screen {
 
+    private RogueColony game;
     private OrthographicCamera camera;
     private World world;
     private TiledMap map;
@@ -26,8 +28,9 @@ public class RCScreen implements Screen {
     private PlayerAnimationSystem playerAnimationSystem;
     private AIAnimationSystem aiAnimationSystem;
 
-    public RCScreen(Game game) {
+    public RCScreen(RogueColony game, String spriteFile) {
 
+        this.game = game;
         camera = new OrthographicCamera();
         world = new World();
         map = new TmxMapLoader().load("map.tmx");
@@ -41,7 +44,7 @@ public class RCScreen implements Screen {
 
         world.initialize();
 
-        EntityFactory.createPlayer(world, 1024 - 32, -16, "horse.png").addToWorld();
+        EntityFactory.createPlayer(world, 1024 - 32, -16, spriteFile).addToWorld();
 
         NPCFactory.createNPC(world, 1200, 0, "thief.png").addToWorld();
         NPCFactory.createNPC(world, 800, 0, "thief.png").addToWorld();
@@ -64,6 +67,8 @@ public class RCScreen implements Screen {
         aiAnimationSystem.process();
         spriteRenderSystem.process();
 
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+            game.setScreen(new MenuScreen(game));
     }
 
     @Override
